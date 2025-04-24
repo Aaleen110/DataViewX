@@ -22,6 +22,14 @@ export interface SortState {
   direction: SortDirection;
 }
 
+// Definition for a single column
+export interface ColumnDefinition<T extends DataItem> {
+  key: string; // Key in the data object (use dot notation for nested keys e.g., 'user.name')
+  header: string; // Text to display in the table header
+  sortable?: boolean; // Whether this column should be sortable (defaults to true if key exists)
+  render?: (item: T) => React.ReactNode; // Optional custom render function for the cell
+}
+
 // Props for the DataViewX component
 export interface DataViewXProps<T extends DataItem> {
   display?: 'grid' | 'list';
@@ -30,6 +38,7 @@ export interface DataViewXProps<T extends DataItem> {
   emptyStateComponent?: React.ReactNode;
   itemsPerPageOptions?: number[];
   initialItemsPerPage?: number;
+  columns?: ColumnDefinition<T>[]; // Optional array to define columns
   // Optional: Function to transform API response if it differs from expected structure
   transformResponse?: (response: any) => ApiResponse<T>;
   // Optional: Props to handle API variations

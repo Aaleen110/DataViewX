@@ -270,7 +270,7 @@ export function DataViewX<T extends DataItem>({
                         value={localSearchTerm}
                         onChange={handleLocalSearchChange}
                         className={styles.searchInput}
-                        disabled={loading}
+                        // disabled={loading}
                         aria-label="Search data"
                     />
                 </div>

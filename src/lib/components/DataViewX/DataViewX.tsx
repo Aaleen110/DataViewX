@@ -7,6 +7,7 @@ import { TbArrowsSort, TbSortDescending, TbSortAscending } from "react-icons/tb"
 import { useDataFetching } from '../../hooks/useDataFetching';
 import { DataViewXProps, DataItem, ColumnDefinition, Theme } from '../../types';
 import styles from './DataViewX.module.css';
+import Loading from './Loading';
 
 // Default Empty State Component
 const DefaultEmptyState = () => (
@@ -274,7 +275,8 @@ export function DataViewX<T extends DataItem>({
 
     // Default theme
     const defaultTheme: Theme = {
-        primary: '#2563eb',
+        primary: '#47A7F4',
+        primaryLight: '#47A7F4',
         secondary: '#e0e7ef',
         background: '#fff',
         text: '#222',
@@ -283,6 +285,7 @@ export function DataViewX<T extends DataItem>({
     const mergedTheme = { ...defaultTheme, ...theme };
     const themeVars = {
         '--primary': mergedTheme.primary,
+        '--primaryLight': mergedTheme.primaryLight,
         '--secondary': mergedTheme.secondary,
         '--background': mergedTheme.background,
         '--text': mergedTheme.text,
@@ -328,7 +331,7 @@ export function DataViewX<T extends DataItem>({
             </div>
 
             <div className={styles.content}>
-                {loading && <div className={styles.loading}>Loading...</div>}
+                {loading && <Loading />}
                 {error && <div className={styles.error}>Error: {error}</div>}
                 {!loading && !error && data.length === 0 && emptyStateComponent}
                 {!loading && !error && data.length > 0 && (

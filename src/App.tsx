@@ -46,11 +46,13 @@ function App() {
         emptyStateComponent={<CustomEmptyState />}
         columns={columns}
         theme={{
-          primary: "#000000",
-          secondary: "#e3f2fd",
+          primary: "#47A7F4",
+          primaryLight: "#E8F5FF",
+          secondary: "red",
           background: "#f8f9fa",
-          text: "#212529",
+          text: "#333333",
           accent: "#ff9800"
+
         }}
         // The following props are optional if using the default API structure and param names
         // dataPath="data.list"

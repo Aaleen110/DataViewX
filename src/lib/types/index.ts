@@ -30,6 +30,16 @@ export interface ColumnDefinition<T extends DataItem> {
   render?: (item: T) => React.ReactNode; // Optional custom render function for the cell
 }
 
+// Theme type for DataViewX
+export interface Theme {
+  primary?: string;
+  secondary?: string;
+  background?: string;
+  text?: string;
+  accent?: string;
+  [key: string]: string | undefined;
+}
+
 // Props for the DataViewX component
 export interface DataViewXProps<T extends DataItem> {
   display?: 'grid' | 'list';
@@ -51,4 +61,5 @@ export interface DataViewXProps<T extends DataItem> {
   pageParamKey?: string; // default 'page'
   limitParamKey?: string; // default 'limit'
   sortParamKey?: string; // default 'sort' (e.g., 'sort=column,direction')
+  theme?: Theme;
 } 

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useMemo, ChangeEvent, useCallback } from 'react';
 import {
     FiSearch, FiList, FiGrid, FiChevronLeft, FiChevronRight,
-    FiArrowUp, FiArrowDown, FiMinus
 } from 'react-icons/fi'; // Using react-icons
+import { TbArrowsSort, TbSortDescending, TbSortAscending } from "react-icons/tb";
+
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { DataViewXProps, DataItem, ColumnDefinition } from '../../types';
+import { DataViewXProps, DataItem, ColumnDefinition, Theme } from '../../types';
 import styles from './DataViewX.module.css';
 
 // Default Empty State Component
@@ -53,7 +54,8 @@ export function DataViewX<T extends DataItem>({
     pageParamKey,
     limitParamKey,
     sortParamKey,
-    columns
+    columns,
+    theme
 }: DataViewXProps<T>) {
     const [currentView, setCurrentView] = useState<'list' | 'grid'>(display);
     const [localSearchTerm, setLocalSearchTerm] = useState('');
@@ -93,7 +95,16 @@ export function DataViewX<T extends DataItem>({
     const handleLocalSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
         const term = event.target.value;
         setLocalSearchTerm(term);
-        debouncedSearch(term);
+        if (term === '') {
+            handleSearch('');
+        }
+        // No API call here for non-empty, only update local state
+    };
+
+    const handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleSearch(localSearchTerm);
+        }
     };
 
     // Use columns prop if provided, otherwise fallback to dynamic headers
@@ -107,15 +118,15 @@ export function DataViewX<T extends DataItem>({
     const renderSortIcon = (column: string, sortable: boolean = true) => {
         if (!sortable) return null;
         if (sortState.column !== column) {
-            return <FiMinus className={styles.sortIcon} />;
+            return <TbArrowsSort className={styles.sortIcon} />;
         }
         if (sortState.direction === 'asc') {
-            return <FiArrowUp className={`${styles.sortIcon} ${styles.active}`} />;
+            return <TbSortAscending className={`${styles.sortIcon} ${styles.active}`} />;
         }
         if (sortState.direction === 'desc') {
-            return <FiArrowDown className={`${styles.sortIcon} ${styles.active}`} />;
+            return <TbSortDescending className={`${styles.sortIcon} ${styles.active}`} />;
         }
-        return <FiMinus className={styles.sortIcon} />;
+        return <TbArrowsSort className={styles.sortIcon} />;
     };
 
     const renderListView = () => (
@@ -128,8 +139,10 @@ export function DataViewX<T extends DataItem>({
                             onClick={col.sortable !== false ? () => handleSort(col.key) : undefined}
                             style={{ cursor: col.sortable !== false ? 'pointer' : 'default' }}
                         >
-                            {col.header}
-                            {renderSortIcon(col.key, col.sortable !== false)}
+                            <span style={{ display: 'inline-flex', alignItems: 'center', fontSize: '14px' }}>
+                                {col.header}
+                                {renderSortIcon(col.key, col.sortable !== false)}
+                            </span>
                         </th>
                     ))}
                     <th></th>
@@ -259,8 +272,25 @@ export function DataViewX<T extends DataItem>({
         );
     };
 
+    // Default theme
+    const defaultTheme: Theme = {
+        primary: '#2563eb',
+        secondary: '#e0e7ef',
+        background: '#fff',
+        text: '#222',
+        accent: '#f59e42',
+    };
+    const mergedTheme = { ...defaultTheme, ...theme };
+    const themeVars = {
+        '--primary': mergedTheme.primary,
+        '--secondary': mergedTheme.secondary,
+        '--background': mergedTheme.background,
+        '--text': mergedTheme.text,
+        '--accent': mergedTheme.accent,
+    } as React.CSSProperties;
+
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={themeVars}>
             <div className={styles.header}>
                 <div className={styles.searchContainer}>
                     <FiSearch className={styles.searchIcon} />
@@ -269,6 +299,7 @@ export function DataViewX<T extends DataItem>({
                         placeholder="Search..."
                         value={localSearchTerm}
                         onChange={handleLocalSearchChange}
+                        onKeyDown={handleSearchKeyDown}
                         className={styles.searchInput}
                         // disabled={loading}
                         aria-label="Search data"

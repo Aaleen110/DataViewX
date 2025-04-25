@@ -1,11 +1,11 @@
 /* DataViewX.module.css */
 .container {
-    background-color: #fff;
+    background-color: var(--background, #fff);
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     font-family: sans-serif;
-    color: #333;
+    color: var(--text, #333);
 }
 
 .header {
@@ -24,31 +24,34 @@
 .searchIcon {
     position: absolute;
     left: 10px;
-    color: #aaa;
+    color: var(--secondary, #aaa);
 }
 
 .searchInput {
     padding: 8px 8px 8px 30px; /* Add padding for icon */
-    border: 1px solid #ccc;
+    border: 1px solid var(--secondary, #ccc);
     border-radius: 4px;
     font-size: 14px;
     min-width: 250px;
+    outline: none;
+    color: var(--text, #222);
+    background: var(--background, #fff);
 }
 
 .viewToggle button {
     background: none;
-    border: 1px solid #ccc;
+    border: 1px solid var(--secondary, #ccc);
     padding: 6px 10px;
     margin-left: 5px;
     cursor: pointer;
     border-radius: 4px;
-    color: #666;
+    color: var(--text, #666);
 }
 
 .viewToggle button.active {
-    background-color: #eee;
-    border-color: #aaa;
-    color: #333;
+    background-color: var(--secondary, #eee);
+    border-color: var(--primary, #aaa);
+    color: var(--primary, #333);
 }
 
 .viewToggle button:first-child {
@@ -65,7 +68,7 @@
 .loading, .error, .empty {
     text-align: center;
     padding: 40px 20px;
-    color: #666;
+    color: var(--secondary, #666);
 }
 
 .content {
@@ -80,16 +83,16 @@
 }
 
 .table th, .table td {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--secondary, #eee);
     padding: 12px 15px;
     text-align: left;
     vertical-align: top; /* Align content top */
 }
 
 .table th {
-    background-color: #f9f9f9;
+    background-color: var(--secondary, #f9f9f9);
     font-weight: 600;
-    color: #555;
+    color: var(--primary, #555);
     cursor: pointer;
     user-select: none;
     white-space: nowrap;
@@ -97,26 +100,25 @@
 
 .table th .sortIcon {
     margin-left: 5px;
-    color: #aaa;
+    color: var(--secondary, #aaa);
     vertical-align: middle;
     font-size: 1.2em;
 }
 
 .table th .sortIcon.active {
-    color: #333;
+    color: var(--primary, #333);
 }
-
 
 .table td .title {
     font-weight: 600;
-    color: #333;
+    color: var(--primary, #333);
     display: block; /* Make title block */
     margin-bottom: 3px; /* Space below title */
 }
 
 .table td .description {
     font-size: 13px;
-    color: #777;
+    color: var(--secondary, #777);
 }
 
 /* Grid Styles */
@@ -127,10 +129,10 @@
 }
 
 .gridItem {
-    border: 1px solid #eee;
+    border: 1px solid var(--secondary, #eee);
     border-radius: 6px;
     padding: 15px;
-    background-color: #fdfdfd;
+    background-color: var(--secondary, #fdfdfd);
 }
 
 .gridItem .title {
@@ -141,7 +143,7 @@
 .gridItem .details p {
     margin: 5px 0;
     font-size: 14px;
-    color: #555;
+    color: var(--primary, #555);
 }
 
 /* Pagination Styles */
@@ -151,20 +153,20 @@
     align-items: center;
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--secondary, #eee);
     font-size: 14px;
-    color: #666;
+    color: var(--secondary, #666);
 }
 
 .paginationControls button,
 .paginationControls select {
     background: none;
-    border: 1px solid #ccc;
+    border: 1px solid var(--secondary, #ccc);
     padding: 6px 10px;
     margin: 0 2px;
     cursor: pointer;
     border-radius: 4px;
-    color: #666;
+    color: var(--text, #666);
     vertical-align: middle;
 }
 
@@ -174,9 +176,9 @@
 }
 
 .paginationControls button.active {
-    background-color: #eee;
-    border-color: #aaa;
-    color: #333;
+    background-color: var(--secondary, #eee);
+    border-color: var(--primary, #aaa);
+    color: var(--primary, #333);
 }
 
 .paginationControls select {

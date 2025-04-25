@@ -45,6 +45,13 @@ function App() {
         itemsPerPageOptions={[5, 10, 15]}
         emptyStateComponent={<CustomEmptyState />}
         columns={columns}
+        theme={{
+          primary: "#000000",
+          secondary: "#e3f2fd",
+          background: "#f8f9fa",
+          text: "#212529",
+          accent: "#ff9800"
+        }}
         // The following props are optional if using the default API structure and param names
         // dataPath="data.list"
         // totalPath="data.total"

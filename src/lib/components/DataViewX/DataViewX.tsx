@@ -331,7 +331,7 @@ export function DataViewX<T extends DataItem>({
             </div>
 
             <div className={styles.content}>
-                {loading && <Loading />}
+                {/* {loading && <Loading />} */}
                 {error && <div className={styles.error}>Error: {error}</div>}
                 {!loading && !error && data.length === 0 && emptyStateComponent}
                 {!loading && !error && data.length > 0 && (

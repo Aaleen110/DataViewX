@@ -25,7 +25,10 @@
     color: var(--text, #333);
     height: 100%;
     display: flex;
+    flex:1;
+    width: 100%;
     flex-direction: column;
+    min-height: 500px;
 }
 
 .header {
@@ -87,11 +90,18 @@
 
 .loading, .error, .empty {
     text-align: center;
-    padding: 40px 20px;
-    color: var(--primary, #666);
+    color: var(--text, #666);
 }
 
 .content {
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
     /* Styles for the main data display area */
 }
 

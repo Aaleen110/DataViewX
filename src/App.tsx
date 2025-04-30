@@ -35,7 +35,7 @@ function App() {
   ];
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1, height: '100%', width: '100%' }}>
       <h1>DataViewX Example</h1>
       <DataViewX<JobCategory>
         getApi={apiUrl}

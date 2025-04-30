@@ -40,6 +40,16 @@ export interface Theme {
   [key: string]: string | undefined;
 }
 
+// Grid fields mapping for dynamic grid rendering
+export interface GridFields {
+  id: string;
+  title: string;
+  subtitle?: string;
+  body?: string;
+  date?: string;
+  dateInfo?: string;
+}
+
 // Props for the DataViewX component
 export interface DataViewXProps<T extends DataItem> {
   display?: 'grid' | 'list';
@@ -62,4 +72,5 @@ export interface DataViewXProps<T extends DataItem> {
   limitParamKey?: string; // default 'limit'
   sortParamKey?: string; // default 'sort' (e.g., 'sort=column,direction')
   theme?: Theme;
+  gridFields?: GridFields;
 } 

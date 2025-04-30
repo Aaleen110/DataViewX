@@ -34,6 +34,15 @@ function App() {
     { key: 'createdAt', header: 'Created At' }
   ];
 
+  const gridFields = {
+    id: 'id',
+    title: 'title',
+    subtitle: 'jobDetails',
+    body: 'description',
+    date: 'createdAt',
+    dateInfo: 'createdBy'
+  };
+
   return (
     <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1, height: '100%', width: '100%', backgroundColor: '#f1f5f9' }}>
       <h1>DataViewX Example</h1>
@@ -45,6 +54,7 @@ function App() {
         itemsPerPageOptions={[5, 10, 15]}
         emptyStateComponent={<CustomEmptyState />}
         columns={columns}
+        gridFields={gridFields}
         theme={{
           primary: "#47A7F4",
           primaryLight: "#E8F5FF",
@@ -54,15 +64,16 @@ function App() {
           accent: "#ff9800"
 
         }}
-        // The following props are optional if using the default API structure and param names
-        // dataPath="data.list"
-        // totalPath="data.total"
-        // pagePath="data.page"
-        // totalPagesPath="data.totalPages"
-        // searchParamKey="search"
-        // pageParamKey="page"
-        // limitParamKey="limit"
-        // sortParamKey="sort"
+
+      // The following props are optional if using the default API structure and param names
+      // dataPath="data.list"
+      // totalPath="data.total"
+      // pagePath="data.page"
+      // totalPagesPath="data.totalPages"
+      // searchParamKey="search"
+      // pageParamKey="page"
+      // limitParamKey="limit"
+      // sortParamKey="sort"
       />
     </div>
   );

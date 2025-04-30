@@ -57,7 +57,8 @@ export function DataViewX<T extends DataItem>({
     limitParamKey,
     sortParamKey,
     columns,
-    theme
+    theme,
+    gridFields
 }: DataViewXProps<T>) {
     const [currentView, setCurrentView] = useState<'list' | 'grid'>(display);
     const [localSearchTerm, setLocalSearchTerm] = useState('');
@@ -161,8 +162,7 @@ export function DataViewX<T extends DataItem>({
                             </td>
                         ))}
                         <td>
-                            <button style={{ marginRight: '5px', opacity: 0.5, cursor: 'not-allowed' }} title="Not implemented">📄</button>
-                            <button style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Not implemented">⋮</button>
+                            <FiMoreVertical />
                         </td>
                     </tr>
                 ))}
@@ -170,34 +170,52 @@ export function DataViewX<T extends DataItem>({
         </table>
     );
 
-    const renderGridView = () => (
-        <div className={styles.grid}>
-            {data.map((item, index) => (
-                <div key={(item.id || index) as React.Key} className={styles.gridItem}>
-                    <span className={styles.gridItemMenu}>
-                        <FiMoreVertical />
-                    </span>
-                    <div className={styles.title}>{item.title} <span className={styles.idNumber}>{'#' + item.id}</span></div>
-                    <div className={styles.details}>
-                        <p>{item.jobDetails}</p>
-                    </div>
-
-                    <div className={styles.details} >
-                        <p style={{ color: '#333333', fontSize: '14px' }}>{item.description?.length > 200 ? `${item.description.substring(0, 200)}...` : item.description}</p>
-                    </div>
-
-
-                    <div style={{ marginTop: '10px', textAlign: 'left' }}>
-                        <div style={{ fontSize: '12px', color: 'grey' }}>
-                            Created {item.createdAt}<br />
-                            By {item.createdBy}
+    const renderGridView = () => {
+        // Fallbacks for grid fields
+        const {
+            id = 'id',
+            title,
+            subtitle,
+            body,
+            date,
+            dateInfo
+        } = gridFields || {};
+        return (
+            <div className={styles.grid}>
+                {data.map((item, index) => (
+                    <div key={(getNestedValue(item, id) || index) as React.Key} className={styles.gridItem}>
+                        <span className={styles.gridItemMenu}>
+                            <FiMoreVertical />
+                        </span>
+                        <div className={styles.title}>
+                            {getNestedValue(item, title) || ''}
+                            <span className={styles.idNumber}>{' #' + getNestedValue(item, id)}</span>
                         </div>
-                        
+                        {subtitle && (
+                            <div className={styles.details}>
+                                <p>{getNestedValue(item, subtitle)}</p>
+                            </div>
+                        )}
+                        {body && (
+                            <div className={styles.details}>
+                                <p style={{ color: '#333333', fontSize: '14px' }}>
+                                    {String(getNestedValue(item, body) ?? '').length > 200
+                                        ? `${String(getNestedValue(item, body)).substring(0, 200)}...`
+                                        : getNestedValue(item, body)}
+                                </p>
+                            </div>
+                        )}
+                        <div style={{ marginTop: '10px', textAlign: 'left' }}>
+                            <div style={{ fontSize: '12px', color: 'grey' }}>
+                                {date && <>Created {getNestedValue(item, date)}<br /></>}
+                                {dateInfo && <>By {getNestedValue(item, dateInfo)}</>}
+                            </div>
+                        </div>
                     </div>
-                </div>
-            ))}
-        </div>
-    );
+                ))}
+            </div>
+        );
+    };
 
     const renderPagination = () => {
         const startItem = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;

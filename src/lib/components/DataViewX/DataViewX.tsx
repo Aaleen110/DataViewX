@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, ChangeEvent, useCallback } from 'react';
 import {
     FiSearch, FiList, FiGrid, FiChevronLeft, FiChevronRight,
+    FiMoreVertical
 } from 'react-icons/fi'; // Using react-icons
 import { TbArrowsSort, TbSortDescending, TbSortAscending } from "react-icons/tb";
 
@@ -140,7 +141,7 @@ export function DataViewX<T extends DataItem>({
                             onClick={col.sortable !== false ? () => handleSort(col.key) : undefined}
                             style={{ cursor: col.sortable !== false ? 'pointer' : 'default' }}
                         >
-                            <span style={{ display: 'inline-flex', alignItems: 'center', fontSize: '14px' }}>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', fontSize: '14px', fontWeight: '500' }}>
                                 {col.header}
                                 {renderSortIcon(col.key, col.sortable !== false)}
                             </span>
@@ -173,17 +174,25 @@ export function DataViewX<T extends DataItem>({
         <div className={styles.grid}>
             {data.map((item, index) => (
                 <div key={(item.id || index) as React.Key} className={styles.gridItem}>
-                    {columnDefs.map(col => (
-                        <div key={col.key}>
-                            <strong>{col.header}:</strong>{' '}
-                            {col.render
-                                ? col.render(item)
-                                : String(getNestedValue(item, col.key) ?? '')}
+                    <span className={styles.gridItemMenu}>
+                        <FiMoreVertical />
+                    </span>
+                    <div className={styles.title}>{item.title} <span className={styles.idNumber}>{'#' + item.id}</span></div>
+                    <div className={styles.details}>
+                        <p>{item.jobDetails}</p>
+                    </div>
+
+                    <div className={styles.details} >
+                        <p style={{ color: '#333333', fontSize: '14px' }}>{item.description?.length > 200 ? `${item.description.substring(0, 200)}...` : item.description}</p>
+                    </div>
+
+
+                    <div style={{ marginTop: '10px', textAlign: 'left' }}>
+                        <div style={{ fontSize: '12px', color: 'grey' }}>
+                            Created {item.createdAt}<br />
+                            By {item.createdBy}
                         </div>
-                    ))}
-                    <div style={{ marginTop: '10px', textAlign: 'right' }}>
-                        <button style={{ marginRight: '5px', opacity: 0.5, cursor: 'not-allowed' }} title="Not implemented">📄</button>
-                        <button style={{ opacity: 0.5, cursor: 'not-allowed' }} title="Not implemented">⋮</button>
+                        
                     </div>
                 </div>
             ))}
@@ -311,27 +320,27 @@ export function DataViewX<T extends DataItem>({
                 <div className={styles.viewToggle}>
                     <button
                         onClick={() => setCurrentView('list')}
-                        className={currentView === 'list' ? styles.active : ''}
+                        className={currentView === 'list' ? styles.active : styles.inactive}
                         disabled={loading}
                         aria-label="Switch to list view"
                         aria-pressed={currentView === 'list'}
                     >
-                        <FiList />
+                        <FiList className='font-bold' />
                     </button>
                     <button
                         onClick={() => setCurrentView('grid')}
-                        className={currentView === 'grid' ? styles.active : ''}
+                        className={currentView === 'grid' ? styles.active : styles.inactive}
                         disabled={loading}
                         aria-label="Switch to grid view"
                         aria-pressed={currentView === 'grid'}
                     >
-                        <FiGrid />
+                        <FiGrid className='font-bold' />
                     </button>
                 </div>
             </div>
 
             <div className={styles.content}>
-                {/* {loading && <Loading />} */}
+                {loading && <Loading />}
                 {error && <div className={styles.error}>Error: {error}</div>}
                 {!loading && !error && data.length === 0 && emptyStateComponent}
                 {!loading && !error && data.length > 0 && (

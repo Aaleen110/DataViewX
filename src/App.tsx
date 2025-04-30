@@ -35,7 +35,7 @@ function App() {
   ];
 
   return (
-    <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1, height: '100%', width: '100%' }}>
+    <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1, height: '100%', width: '100%', backgroundColor: '#f1f5f9' }}>
       <h1>DataViewX Example</h1>
       <DataViewX<JobCategory>
         getApi={apiUrl}
@@ -49,7 +49,7 @@ function App() {
           primary: "#47A7F4",
           primaryLight: "#E8F5FF",
           secondary: "red",
-          background: "#f8f9fa",
+          background: "#FFFFFF",
           text: "#333333",
           accent: "#ff9800"
 

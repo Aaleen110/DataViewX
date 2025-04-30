@@ -55,7 +55,6 @@ export function DataViewX<T extends DataItem>({
     searchParamKey,
     pageParamKey,
     limitParamKey,
-    sortParamKey,
     columns,
     theme,
     gridFields
@@ -76,7 +75,6 @@ export function DataViewX<T extends DataItem>({
         handlePageChange,
         handleItemsPerPageChange,
         handleSort,
-        setItemsPerPage
     } = useDataFetching<T>({
         getApi,
         token,
@@ -88,8 +86,7 @@ export function DataViewX<T extends DataItem>({
         totalPagesPath,
         searchParamKey,
         pageParamKey,
-        limitParamKey,
-        sortParamKey
+        limitParamKey
     });
 
     // Debounce the search handler

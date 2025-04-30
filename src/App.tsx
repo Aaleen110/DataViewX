@@ -51,7 +51,7 @@ function App() {
         token={token}
         display="list"
         initialItemsPerPage={10}
-        itemsPerPageOptions={[5, 10, 15]}
+        itemsPerPageOptions={[10, 25, 50, 100]}
         emptyStateComponent={<CustomEmptyState />}
         columns={columns}
         gridFields={gridFields}
@@ -64,16 +64,6 @@ function App() {
           accent: "#ff9800"
 
         }}
-
-      // The following props are optional if using the default API structure and param names
-      // dataPath="data.list"
-      // totalPath="data.total"
-      // pagePath="data.page"
-      // totalPagesPath="data.totalPages"
-      // searchParamKey="search"
-      // pageParamKey="page"
-      // limitParamKey="limit"
-      // sortParamKey="sort"
       />
     </div>
   );

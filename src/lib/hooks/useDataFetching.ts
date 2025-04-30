@@ -14,7 +14,8 @@ interface UseDataFetchingProps<T extends DataItem> {
     searchParamKey?: string;
     pageParamKey?: string;
     limitParamKey?: string;
-    sortParamKey?: string;
+    // sortOrderParamKey?: string;
+    // sortByParamKey?: string;
 }
 
 // Helper to get nested property value
@@ -34,7 +35,8 @@ export function useDataFetching<T extends DataItem>({
     searchParamKey = 'search',
     pageParamKey = 'page',
     limitParamKey = 'limit',
-    sortParamKey = 'sort', // Example: sort=column,direction
+    // sortOrderParamKey = 'sortOrder',
+    // sortByParamKey = 'sortBy',
 }: UseDataFetchingProps<T>) {
     const [data, setData] = useState<T[]>([]);
     const [totalItems, setTotalItems] = useState(0);
@@ -56,11 +58,17 @@ export function useDataFetching<T extends DataItem>({
         if (searchTerm) {
             params.append(searchParamKey, searchTerm);
         }
-        if (sortState.column && sortState.direction) {
-            params.append(sortParamKey, `${sortState.column},${sortState.direction}`);
+        if (
+            typeof sortState.column === 'string' &&
+            typeof sortState.direction === 'string' 
+        ) {
+            // console.log('Appending sort params:', sortByParamKey, sortState.column, sortOrderParamKey, sortState.direction);
+            params.append('sortBy', sortState.column);
+            params.append('sortOrder', sortState.direction);
         }
 
         const url = `${getApi}?${params.toString()}`;
+        console.log('Final URL:', url);
 
         const config: AxiosRequestConfig = {};
         if (token) {
@@ -91,7 +99,7 @@ export function useDataFetching<T extends DataItem>({
         } finally {
             setLoading(false);
         }
-    }, [getApi, token, currentPage, itemsPerPage, searchTerm, sortState, transformResponse, dataPath, totalPath, pagePath, totalPagesPath, searchParamKey, pageParamKey, limitParamKey, sortParamKey]);
+    }, [getApi, token, currentPage, itemsPerPage, searchTerm, sortState, transformResponse, dataPath, totalPath, pagePath, totalPagesPath, searchParamKey, pageParamKey, limitParamKey]);
 
     useEffect(() => {
         fetchData();
@@ -114,18 +122,19 @@ export function useDataFetching<T extends DataItem>({
     };
 
     const handleSort = (column: string) => {
+        console.log('handleSort', column);
         setSortState(prevState => {
             let direction: SortDirection = 'asc';
             if (prevState.column === column && prevState.direction === 'asc') {
                 direction = 'desc';
             } else if (prevState.column === column && prevState.direction === 'desc') {
                 // Optional: Cycle back to no sort or stay descending
-                direction = null; // Cycle back to unsorted
-                 column = null; // Reset column as well
+                return { column: '', direction: null }; // Reset to no sort
             }
             return { column, direction };
         });
         setCurrentPage(1); // Reset page on sort change
+
     };
 
     return {

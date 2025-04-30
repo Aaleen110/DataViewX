@@ -70,7 +70,9 @@ export interface DataViewXProps<T extends DataItem> {
   searchParamKey?: string; // default 'search'
   pageParamKey?: string; // default 'page'
   limitParamKey?: string; // default 'limit'
-  sortParamKey?: string; // default 'sort' (e.g., 'sort=column,direction')
+  // sortParamKey?: string; // default 'sort' (e.g., 'sort=column,direction')
   theme?: Theme;
   gridFields?: GridFields;
+  sortOrderParamKey?: string; // e.g., 'sortOrder'
+  sortByParamKey?: string;    // e.g., 'sortBy'
 } 
